@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о производителе</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+        }
+        th {
+            background-color: #f5f5f5;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Информация о производителе</h1>
+
+    {% if data %}
+        {% for item in data %}
+            <table>
+                <tr><th>Страна</th><td>{{ item.Country }}</td></tr>
+                <tr><th>Город</th><td>{{ item.City }}</td></tr>
+                <tr><th>Адрес</th><td>{{ item.Address }} {{ item.Address2 }}</td></tr>
+                <tr><th>Email</th><td>{{ item.ContactEmail or "—" }}</td></tr>
+                <tr><th>Телефон</th><td>{{ item.ContactPhone or "—" }}</td></tr>
+                <tr><th>Факс</th><td>{{ item.ContactFax or "—" }}</td></tr>
+                <tr><th>Тип</th><td>{{ item.Type }}</td></tr>
+            </table>
+        {% endfor %}
+    {% else %}
+        <p>Нет данных для данного производителя.</p>
+    {% endif %}
+
+    <p><a href="/items">⬅ Вернуться к поиску</a></p>
+</body>
+</html>

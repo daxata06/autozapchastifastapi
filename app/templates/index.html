@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск деталей</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 8px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-right: 8px;
+        }
+        button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 16px;
+            width: 280px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.03);
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .card-manufacturer {
+            color: #666;
+            margin-bottom: 12px;
+        }
+        .card a {
+            display: inline-block;
+            margin-right: 8px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .card a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Поиск деталей</h1>
+
+    <form method="get" action="/items">
+        <input type="text" name="query" value="{{ query or '' }}" placeholder="Введите название детали">
+        <input type="number" name="typed" value="{{ typed or '' }}" placeholder="Тип (необязательно)">
+        <button type="submit">Искать</button>
+    </form>
+
+    {% if items %}
+        <h2>Результаты:</h2>
+        <div class="card-container">
+            {% for item in items %}
+                <div class="card">
+                    <div class="card-title">{{ item.Name }}</div>
+                    <div class="card-manufacturer">
+                        Производитель: 
+                        <a href="/items/getmanufacturer/?manufacturerid={{item.ManufacturerId}}">
+                            {{ item.ManufacturerName }}
+                        </a>
+                    </div>
+                    <a href="{{ item.URL }}" target="_blank">Подробнее</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        {% if query %}
+            <p>Ничего не найдено по запросу «{{ query }}».</p>
+        {% endif %}
+        {% if typed %}
+            <p>Ничего не найдено с типом «{{ typed }}».</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
